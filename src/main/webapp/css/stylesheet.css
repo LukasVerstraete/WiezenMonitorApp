@@ -1,0 +1,41 @@
+.navbar
+{
+    border: none;
+}
+
+.container 
+{
+    margin-top: 70px;
+}
+
+.container-fluid
+{
+    padding-right: 0;
+}
+
+.header-img
+{
+    padding: 0;
+    padding-left: 1em;
+    margin: 0;
+}
+
+.green-border
+{
+    border-bottom: 3px solid #33AF47;
+}
+
+.green-border:hover
+{
+    padding-bottom: 12px;
+    border-bottom: 6px solid #33AF47;
+}
+
+.green-filler
+{
+   background-color: #33AF47;
+   height: 50px;
+   width: 1em;
+}
+
+
