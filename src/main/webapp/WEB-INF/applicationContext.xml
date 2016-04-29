@@ -9,12 +9,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-    <bean id="playerService" class="com.lukas.verstraete.wiezendomain.service.PlayerService" destroy-method="closeConnection">
-        <constructor-arg>
-            <value type="com.lukas.verstraete.wiezendomain.util.MemoryLocation">REMOTE</value>
-        </constructor-arg>
-    </bean>
-    <bean id="gameService" class="com.lukas.verstraete.wiezendomain.service.GameService" destroy-method="closeConnection">
+    <bean id="services" class="com.lukas.verstraete.wiezendomain.service.ServiceFacade" destroy-method="closeConnection">
         <constructor-arg>
             <value type="com.lukas.verstraete.wiezendomain.util.MemoryLocation">REMOTE</value>
         </constructor-arg>

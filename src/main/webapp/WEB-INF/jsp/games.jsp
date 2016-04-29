@@ -25,6 +25,10 @@
                         </td>
                     </tr>
                 </c:forEach>
+                <tr>
+                    <td colspan="2" style="padding:0;"><a href="<c:url value="games/new"/>" style="text-align: center;"><span class="glyphicon glyphicon-plus" style="height: 100%; width:100%; position:relative;"></span></a></td>
+                </tr>
+            </table>
             <jsp:include page="footer.jsp"/>
         </div>
     </body>
