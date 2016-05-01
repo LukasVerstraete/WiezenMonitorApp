@@ -4,9 +4,10 @@ import com.lukas.verstraete.wiezendomain.service.GameService;
 import com.lukas.verstraete.wiezendomain.service.ServiceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.portlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value="/games")
@@ -18,15 +19,21 @@ public class GameController {
     public GameController() {}
     
     @RequestMapping(method=RequestMethod.GET)
-    public ModelAndView getGames()
+    public ModelAndView getAllGames()
     {
         return new ModelAndView("games", "games", services.getAllGames());
     }
     
-    @RequestMapping(value="/new", method=RequestMethod.GET)
-    public ModelAndView createGame()
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    public ModelAndView getGame(@PathVariable long id)
     {
-        long id = services.createGame();
         return new ModelAndView("game", "game", services.getGame(id));
+    }
+    
+    @RequestMapping(value="/new", method=RequestMethod.GET)
+    public String createGame()
+    {
+        services.createGame();
+        return "redirect:/games.htm";
     }
 }

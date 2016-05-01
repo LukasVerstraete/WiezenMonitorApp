@@ -10,7 +10,7 @@
             </div>    
             <ol class="nav navbar-nav pull-right">
                 <li><a class="green-border" href="<c:url value="/games.htm"/>">Games</a></li>
-                <li><a class="green-border" href="#">Players</a></li>
+                <li><a class="green-border" href="<c:url value="/players.htm"/>">Players</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
                 <li class="green-filler"></li>
             </ol>
