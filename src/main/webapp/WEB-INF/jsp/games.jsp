@@ -8,9 +8,9 @@
     <body>
         <div class="container">
             <jsp:include page="header.jsp"/>
-            <table class="table table-hover table-striped">
+            <table class="table table-hover table-striped table-responsive">
                 <tr>
-                    <td>Game state</td>
+                    <th>Game state</th>
                     <th>Players</th>
                     <th>#rounds</th>
                 </tr>
@@ -20,7 +20,7 @@
                         <td>
                             <table>
                                 <c:forEach var="player" items="${game.players}">
-                                    <tr>${player.username}</tr>
+                                    <tr><td>${player.username}</td></tr>
                                 </c:forEach>
                             </table>
                         </td>
