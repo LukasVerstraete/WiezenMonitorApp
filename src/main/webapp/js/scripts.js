@@ -24,3 +24,36 @@ function OpenDialog()
 {
     $("#dialog").dialog("open");
 }
+
+function CheckBoxes()
+{
+//    $('input[name=players]').each(function(index, element) {
+//        $('input[name=opponents]').each(function(index2, element2) {
+//            if(index == index2)
+//            {
+//                $(element2).prop("disabled", $(element).prop("checked"));
+//                $(element).prop("disabled", $(element2).prop("checked"));
+//            }
+//        });
+//    });
+    
+    //$('input:checkbox:not(:checked)').prop("disabled", true);
+    if($('input:checkbox:checked').length >= 4)
+    {
+        $('input:checkbox:not(:checked)').prop("disabled", true);
+    }
+    else
+    {
+        $('input[name=players]').each(function(index, element) {
+        $('input[name=opponents]').each(function(index2, element2) {
+            if(index == index2)
+            {
+                $(element2).prop("disabled", $(element).prop("checked"));
+                $(element).prop("disabled", $(element2).prop("checked"));
+            }
+        });
+    });
+    }
+    
+    
+}

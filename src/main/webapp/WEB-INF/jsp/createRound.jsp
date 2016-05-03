@@ -9,8 +9,30 @@
     <body>
         <div class="container">
             <jsp:include page="header.jsp"/>
-            <form:form commandName="roundObject" action="/games/createRound.htm" method="POST">
-                <form:checkboxes items="${game.players}" path="players" itemLabel="username" itemValue="id"/>
+            <c:url var="createUrl" value="/games/createRound/${game.id}.htm"/>
+            <form:form commandName="roundObject" action="${createUrl}" method="POST">
+                <p class="form-group">
+                    <label for="type" class="control-label">game type</label>
+                    <form:select path="type" items="${gameTypes}"/>
+                </p>
+                <div class="form-group">
+                    
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>players</th>
+                            <th>opponents</th>
+                        </tr>
+                        <c:forEach var="player" items="${game.players}" varStatus="status">
+                            <tr>
+                                <td><div class="checkbox-inline"><form:checkbox path="players" value="${player.id}" label="${player.username}" onclick="CheckBoxes()"/></div></td>
+                                <td><div class="checkbox-inline"><form:checkbox path="opponents" value="${player.id}" label="${player.username}" onclick="CheckBoxes()"/></div></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                <p class="form-group">
+                    <input type="submit" value="start round"/>
+                </p>
             </form:form>
             <jsp:include page="footer.jsp"/>
         </div>

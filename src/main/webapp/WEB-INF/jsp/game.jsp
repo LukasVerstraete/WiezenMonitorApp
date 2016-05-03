@@ -13,6 +13,7 @@
                 <input type="text" name="name"/>
                 <input type="submit" value="add"/>
             </div>
+            ${game.currentRound}
             <table class="table table-hover table-striped">
                 <tr>
                     <c:forEach var="player" items="${game.players}">
@@ -22,8 +23,13 @@
                 </tr>
                 
                 <c:forEach var="round" items="${game.rounds}">
-                    
+                    <tr>
+                        <td colspan="${game.players.size() + 1}">${game.currentRound}</td>
+                    </tr>
                 </c:forEach>
+                <tr>
+                    <td colspan="${game.players.size() + 1}">${game.currentRound}</td>
+                </tr>
                 
                 <c:if test="${game.players.size() >= 4}">    
                     <tr>

@@ -2,10 +2,14 @@ package com.lukas.verstraete.wiezenmonitor;
 
 import com.lukas.verstraete.wiezendomain.domain.Game;
 import com.lukas.verstraete.wiezendomain.domain.Player;
+import com.lukas.verstraete.wiezendomain.domain.Round;
 import com.lukas.verstraete.wiezendomain.domain.RoundFactory;
 import com.lukas.verstraete.wiezendomain.service.GameService;
 import com.lukas.verstraete.wiezendomain.service.ServiceFacade;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,13 +17,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 @Controller
 @RequestMapping(value="/games")
+@SessionAttributes("roundObject")
 public class GameController {
     
-    public class RoundObject
+    public class RoundObject implements Serializable
     {
         
         private long[] players;
@@ -95,11 +102,23 @@ public class GameController {
         return view;
     }
     
-    @RequestMapping(value="/createRound", method=RequestMethod.POST)
-    public String createRound(@ModelAttribute("game") Game game, @ModelAttribute("type") RoundFactory.Type type, @ModelAttribute("playersMap") Map<Player, Boolean> players, @ModelAttribute("opponentsMap") Map<Player, Boolean> opponents)
+    @RequestMapping(value="/createRound/{id}", method=RequestMethod.POST)
+    public ModelAndView createRound(@PathVariable long id, @ModelAttribute("roundObject") RoundObject object)
     {
-        
-        return "";
+        List<Player> players = new ArrayList<>();
+        List<Player> opponents = new ArrayList<>();
+        for(long l : object.getPlayers())
+        {
+            players.add(services.getPlayer(l));
+        }
+        for(long l : object.getOpponents())
+        {
+            opponents.add(services.getPlayer(l));
+        }
+        RoundFactory factory = new RoundFactory();
+        Round round = factory.createRound(object.getType(), services.getGame(id).getPlayers(), players, opponents);
+        services.startRound(id, round);
+        return new ModelAndView("game", "game", services.getGame(id));
     }
     
     private RoundObject createRoundObject(Game game)
@@ -113,12 +132,6 @@ public class GameController {
     
     private long[] createBooleanList(Game game)
     {
-        long[] list = new long[game.getPlayers().size()];
-        int i = 0;
-//        for(Player p : game.getPlayers())
-//        {
-//            list[i++] = p.getId();
-//        }
-        return list;
+        return new long[game.getPlayers().size()];
     }
 }
