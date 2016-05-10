@@ -1,4 +1,4 @@
-$('body').on('mousedown', 'tr[url]', function(e){
+$('body').on('mousedown', 'td[url]', function(e){
     var click = e.which;
     var url = $(this).attr('url');
     if(url){

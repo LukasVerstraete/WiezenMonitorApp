@@ -4,13 +4,10 @@ import com.lukas.verstraete.wiezendomain.domain.Game;
 import com.lukas.verstraete.wiezendomain.domain.Player;
 import com.lukas.verstraete.wiezendomain.domain.Round;
 import com.lukas.verstraete.wiezendomain.domain.RoundFactory;
-import com.lukas.verstraete.wiezendomain.service.GameService;
 import com.lukas.verstraete.wiezendomain.service.ServiceFacade;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 @Controller
 @RequestMapping(value="/games")
@@ -82,6 +78,20 @@ public class GameController {
         return "redirect:/games.htm";
     }
     
+    @RequestMapping(value="/endGame/{id}", method=RequestMethod.GET)
+    public String endGame(@PathVariable long id)
+    {
+         services.endGame(id);
+         return "redirect:/games/" + id + ".htm";
+    }
+    
+    @RequestMapping(value="/delete/{id}", method=RequestMethod.POST)
+    public String deleteGame(@PathVariable long id)
+    {
+        services.deleteGame(services.getGame(id));
+        return "redirect:/games.htm";
+    }
+    
     @RequestMapping(value="/add/{id}", method=RequestMethod.POST)
     public String addPlayerToGame(@ModelAttribute("name") String playerName, @PathVariable long id)
     {
@@ -119,6 +129,19 @@ public class GameController {
         Round round = factory.createRound(object.getType(), services.getGame(id).getPlayers(), players, opponents);
         services.startRound(id, round);
         return new ModelAndView("game", "game", services.getGame(id));
+    }
+    
+    @RequestMapping(value="/endRound/{id}", method=RequestMethod.POST)
+    public ModelAndView endRound(@PathVariable long id, @ModelAttribute("wins") int wins) {
+        services.endRound(id, wins);
+        return new ModelAndView("game", "game", services.getGame(id));
+    }
+    
+    @RequestMapping(value="delete/{gameId}/{roundId}", method=RequestMethod.POST)
+    public String deleteRound(@PathVariable long gameId, @PathVariable long roundId)
+    {
+        services.deleteRound(gameId, roundId);
+        return "redirect:/games/" + gameId + ".htm";
     }
     
     private RoundObject createRoundObject(Game game)
